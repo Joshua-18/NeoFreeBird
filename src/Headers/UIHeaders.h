@@ -18,3 +18,6 @@
 
 @interface UIDeviceRGBColor: UIColor
 @end
+
+@interface _UIBarBackground: UIView
+@end

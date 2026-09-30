@@ -378,6 +378,17 @@ static BOOL BHTIsExploreSearchBackgroundView(UIView* view) {
 
 %end
 
+%hook _UIBarBackground
+
+- (void)didMoveToWindow {
+    %orig;
+    if (self.window && BHTDimThemeEnabled()) {
+        self.backgroundColor = BHTDimBackgroundColor();
+    }
+}
+
+%end
+
 // MARK: - Custom tab bar order and visibility
 
 static NSString* scribePageForEntry(id<T1AppNavigationTabEntry> entry) {
