@@ -68,8 +68,8 @@ static UIViewController* TopMostController(void) {
         // from the processed time measured against the probed duration.
         NSString* downloadingText = [[BHTBundle sharedBundle]
             localizedStringForKey:@"DOWNLOAD_LIVE_ACTIVITY_DOWNLOADING"];
-        void (^ffmpegDownload)(NSString*, NSString*, double) = ^(
-            NSString* args, NSString* ext, double durationMs) {
+        void (^ffmpegDownload)(NSString*, NSString*, double, void (^)(void)) = ^(
+            NSString* args, NSString* ext, double durationMs, void (^completion)(void)) {
             showHUD(downloadingText);
             NSURL* outFile = [[NSURL fileURLWithPath:NSTemporaryDirectory()]
                 URLByAppendingPathComponent:[NSString
@@ -119,6 +119,8 @@ static UIViewController* TopMostController(void) {
                                                               animated:YES
                                                             completion:nil];
                         }
+                        if (completion)
+                            completion();
                     });
                 }
                 withLogCallback:nil
@@ -153,7 +155,7 @@ static UIViewController* TopMostController(void) {
                                      ffmpegDownload(
                                          [NSString stringWithFormat:@"-i %@ -c copy",
                                                                     url.absoluteString],
-                                         @"mp4", durationMs);
+                                         @"mp4", durationMs, nil);
                                  }];
             };
 
@@ -171,7 +173,7 @@ static UIViewController* TopMostController(void) {
                                                           @"split[a][b];[a]palettegen["
                                                           @"p];[b][p]paletteuse",
                                                           url.absoluteString],
-                                     @"gif", durationMs);
+                                     @"gif", durationMs, nil);
                              }];
         };
 
@@ -187,8 +189,33 @@ static UIViewController* TopMostController(void) {
                                              @"-i %@ -vf scale=%@:flags=lanczos -c:v "
                                              @"h264_videotoolbox -b:v 2M -c:a copy",
                                              url.absoluteString, resolution],
-                                     @"mp4", durationMs);
+                                     @"mp4", durationMs, nil);
                              }];
+        };
+
+        // Picks the mp4 variant with the most pixels, or nil if there is none.
+        NSURL* (^bestMP4URL)(TFSTwitterEntityMedia*) = ^NSURL*(
+            TFSTwitterEntityMedia* media) {
+            NSURL* bestURL = nil;
+            NSInteger bestPixels = -1;
+            for (TFSTwitterEntityMediaVideoVariant* variant in media.videoInfo
+                     .variants) {
+                NSURL* url =
+                    variant.url.length ? [NSURL URLWithString:variant.url] : nil;
+                if (!url || ![variant.contentType isEqualToString:@"video/mp4"])
+                    continue;
+
+                NSArray<NSString*>* dims =
+                    [[BHTManager getVideoQuality:url.absoluteString]
+                        componentsSeparatedByString:@"x"];
+                NSInteger pixels =
+                    dims.count == 2 ? dims[0].integerValue * dims[1].integerValue : 0;
+                if (pixels > bestPixels) {
+                    bestPixels = pixels;
+                    bestURL = url;
+                }
+            }
+            return bestURL;
         };
 
         // videoInfo.variants backs both video (mediaType 3) and GIF (mediaType 2);
@@ -217,23 +244,10 @@ static UIViewController* TopMostController(void) {
 
             if ([BHTSettings boolForKey:@"download_highest_quality"] &&
                 media.mediaType == 3 && mp4URLs.count > 0) {
-                NSURL* bestURL = mp4URLs.firstObject;
-                NSInteger bestPixels = -1;
-                for (NSURL* url in mp4URLs) {
-                    NSArray<NSString*>* dims =
-                        [[BHTManager getVideoQuality:url.absoluteString]
-                            componentsSeparatedByString:@"x"];
-                    NSInteger pixels = dims.count == 2
-                                           ? dims[0].integerValue * dims[1].integerValue
-                                           : 0;
-                    if (pixels > bestPixels) {
-                        bestPixels = pixels;
-                        bestURL = url;
-                    }
-                }
                 ffmpegDownload(
-                    [NSString stringWithFormat:@"-i %@ -c copy", bestURL.absoluteString],
-                    @"mp4", 0);
+                    [NSString stringWithFormat:@"-i %@ -c copy",
+                                               bestMP4URL(media).absoluteString],
+                    @"mp4", 0, nil);
                 return;
             }
 
@@ -328,6 +342,48 @@ static UIViewController* TopMostController(void) {
                                                    buildVariantItems(media, presentSheet);
                                                }]];
             }];
+            // Offer a single item that grabs the best mp4 of every video. Downloads
+            // run one after another since they share the HUD and save sheet.
+            BOOL allVideos = YES;
+            for (TFSTwitterEntityMedia* media in videoEntities) {
+                if (media.mediaType != 3) {
+                    allVideos = NO;
+                    break;
+                }
+            }
+            if (allVideos && [BHTSettings boolForKey:@"download_all_videos"]) {
+                NSArray<TFSTwitterEntityMedia*>* queue = videoEntities.copy;
+                [groups
+                    insertObject:[objc_getClass("TFNActionItem")
+                                     actionItemWithTitle:
+                                         [[BHTBundle sharedBundle]
+                                             localizedStringForKey:
+                                                 @"DOWNLOAD_ALL_VIDEOS_OPTION_TITLE"]
+                                               imageName:@"arrow_down_circle_stroke"
+                                                  action:^{
+                                                      __block void (^downloadNext)(NSUInteger);
+                                                      downloadNext = ^(NSUInteger idx) {
+                                                          if (idx >= queue.count) {
+                                                              downloadNext = nil;
+                                                              return;
+                                                          }
+                                                          NSURL* url = bestMP4URL(queue[idx]);
+                                                          if (!url) {
+                                                              downloadNext(idx + 1);
+                                                              return;
+                                                          }
+                                                          ffmpegDownload(
+                                                              [NSString
+                                                                  stringWithFormat:@"-i %@ -c copy",
+                                                                                   url.absoluteString],
+                                                              @"mp4", 0, ^{
+                                                                  downloadNext(idx + 1);
+                                                              });
+                                                      };
+                                                      downloadNext(0);
+                                                  }]
+                         atIndex:0];
+            }
             presentSheet(groups);
         } else {
             buildVariantItems(videoEntities.firstObject, presentSheet);
