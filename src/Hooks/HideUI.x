@@ -222,3 +222,17 @@
 }
 
 %end
+
+%hook T1StandardStatusAskGrokButtonView
+    
+-(void)didMoveToWindow {
+    %orig;
+    if ([BHTSettings boolForKey:@"hide_grok_create"]) {
+        self.hidden = YES;
+        self.userInteractionEnabled = NO;
+        for (UIView* subview in self.subviews) {
+            subview.hidden = YES;
+        }
+    }
+}
+%end

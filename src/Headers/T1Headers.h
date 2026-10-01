@@ -74,6 +74,9 @@
 @property (nonatomic, strong) UIButton* uploadButton;
 @end
 
+@interface T1StandardStatusAskGrokButtonView: UIView
+@end
+
 @interface T1MediaAttachmentsViewCell () <UINavigationControllerDelegate,
                                           UIImagePickerControllerDelegate>
 @end
