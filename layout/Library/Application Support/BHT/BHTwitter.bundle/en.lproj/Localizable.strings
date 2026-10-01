@@ -99,6 +99,12 @@
 "LIKE_CONFIRM_TITLE" = "Confirm likes";
 "LIKE_CONFIRM_DETAIL" = "Ask before liking a Tweet.";
 
+"SHOW_QUOTE_NUMBERS_TITLE" = "Show quote numbers";
+"SHOW_QUOTE_NUMBERS_DETAIL" = "Show the number of quotes and retweets a Tweet has received.";
+
+"SHOW_UNROUNDED_QUOTE_NUMBERS_TITLE" = "Show unrounded quote numbers";
+"SHOW_UNROUNDED_QUOTE_NUMBERS_DETAIL" = "Show the exact number of quotes and retweets a Tweet has received. Can cause overflow issues.";
+
 "USE_TENOR_GIFS_TITLE" = "Use Tenor GIFs";
 "USE_TENOR_GIFS_DETAIL" = "Use Tenor GIFs instead of Twitter's GIFs (GIPHY). Tenor has more options.";
 

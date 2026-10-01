@@ -43,6 +43,8 @@ void MarkEmptiedModuleChrome(NSArray* items, NSMutableIndexSet* removed);
 // Live square-avatar restyling (Avatars.x)
 void applySquareAvatarsSetting(void);
 
+NSString* formatNumberWithSuffix(long long number);
+
 // Custom theme color re-apply (Theme.x)
 void applySelectedThemeColor(void);
 
