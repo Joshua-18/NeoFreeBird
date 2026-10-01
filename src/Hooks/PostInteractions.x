@@ -4,35 +4,67 @@
 //
 
 #import "Headers/T1Headers.h"
+#import "HookHelpers.h"
 
 static void BHTSetPostInteractionCounts(UIViewController* controller, TFNTwitterStatus* status) {
     if (status == nil || ![controller isViewLoaded]) {
         return;
     }
-
-    controller.navigationItem.title = [NSString stringWithFormat:@"Quotes: %lld  Retweets: %lld",
-                                                                  status.quoteCount,
-                                                                  status.retweetCount];
+    if (![BHTSettings boolForKey:@"show_unrounded_quote_numbers"]) {
+        controller.navigationItem.title = [NSString stringWithFormat:@"Quotes: %@  Retweets: %@",
+                                            formatNumberWithSuffix(status.quoteCount),
+                                            formatNumberWithSuffix(status.retweetCount)];
+    } else {
+        controller.navigationItem.title = [NSString stringWithFormat:@"Quotes: %lld  Retweets: %lld",
+                                            status.quoteCount,
+                                            status.retweetCount];
+    }
 }
+
+static char BHTPostInteractionAccountKey;
+static char BHTPostInteractionStatusIDKey;
 
 %hook T1PostInteractionsViewController
 
++ (id)viewControllerWithAccount:(TFNTwitterAccount*)account
+                        statusID:(long long)statusID
+                      statusUserID:(long long)statusUserID
+                       initialTab:(long long)initialTab {
+    T1PostInteractionsViewController* controller =
+        %orig(account, statusID, statusUserID, initialTab);
+    if (controller != nil) {
+        objc_setAssociatedObject(controller, &BHTPostInteractionAccountKey, account,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(controller, &BHTPostInteractionStatusIDKey,
+                                 @(statusID), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+    return controller;
+}
+
 - (void)viewDidLoad {
     %orig;
+    if (![BHTSettings boolForKey:@"show_quote_numbers"]) {
+        return;
+    }
 
-    TFNTwitterAccount* account = [self valueForKey:@"account"];
-    NSNumber* statusID = [self valueForKey:@"statusID"];
-    if (account == nil || statusID == nil || account.model == nil) {
+    TFNTwitterAccount* account = objc_getAssociatedObject(self, &BHTPostInteractionAccountKey);
+    NSNumber* statusID = objc_getAssociatedObject(self, &BHTPostInteractionStatusIDKey);
+    if (account == nil || statusID == nil || ![account respondsToSelector:@selector(model)]) {
+        return;
+    }
+
+    TFNTwitterAccountModel* model = account.model;
+    if (model == nil || ![model respondsToSelector:@selector(lookUpStatusForID:completionBlock:)]) {
         return;
     }
 
     __weak T1PostInteractionsViewController* weakSelf = self;
-    [account.model lookUpStatusForID:statusID.longLongValue
-                     completionBlock:^(TFNTwitterStatus* status) {
-                         dispatch_async(dispatch_get_main_queue(), ^{
-                             BHTSetPostInteractionCounts(weakSelf, status);
-                         });
-                     }];
+    [model lookUpStatusForID:statusID.longLongValue
+             completionBlock:^(TFNTwitterStatus* status) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     BHTSetPostInteractionCounts(weakSelf, status);
+                 });
+             }];
 }
 
 %end
