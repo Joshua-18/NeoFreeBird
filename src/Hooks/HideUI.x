@@ -233,6 +233,8 @@
         for (UIView* subview in self.subviews) {
             subview.hidden = YES;
         }
+        [self.superview setNeedsLayout];
+        [self.superview layoutSubviews];
     }
 }
 %end
