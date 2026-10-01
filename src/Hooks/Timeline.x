@@ -166,6 +166,39 @@ static BOOL IsInHierarchyOfClass(UIViewController* viewController, NSString* cla
     return NO;
 }
 
+// Need to tag edit history since it reuses a generic class
+static const void* EditHistoryViewControllerKey = &EditHistoryViewControllerKey;
+
+static BOOL IsInEditHistory(UIViewController* viewController) {
+    UIViewController* currentVC = viewController;
+
+    while (currentVC) {
+        if (objc_getAssociatedObject(currentVC, EditHistoryViewControllerKey)) {
+            return YES;
+        }
+
+        currentVC = currentVC.parentViewController;
+    }
+
+    return NO;
+}
+
+%hook T1EditHistoryViewControllerFactory
+
++ (id)viewControllerWithAccount:(id)account
+                        tweetID:(unsigned long long)tweetID
+                  scribeContext:(id)scribeContext {
+    id viewController = %orig;
+    if (viewController) {
+        objc_setAssociatedObject(viewController, EditHistoryViewControllerKey, @YES,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
+
+    return viewController;
+}
+
+%end
+
 static NSString* ItemEntryID(id viewModel) {
     if (![viewModel respondsToSelector:@selector(entryID)]) {
         return nil;
@@ -496,14 +529,13 @@ static NSSet<NSNumber*>* ConversationAuthorRepliedToUserIDs(NSArray* sections,
     context.inConversation =
         IsInHierarchyOfClass(dataViewController, @"T1ConversationContainerViewController");
     context.inProfile = IsInHierarchyOfClass(dataViewController, @"T1ProfileViewController");
-    context.inSearch = IsInHierarchyOfClass(dataViewController, @"TTSSearchContainerViewController");
-    context.inEditHistory = IsInHierarchyOfClass(dataViewController,
-     @"_TtC14T1TwitterSwiftP33_9D4C9ABB7A0EDE8E7A7EFD08474E735140T1ActivityHistoryContainerViewController");
+    context.inSearch = IsInHierarchyOfClass(dataViewController, @"TTSSearchContainerViewControllerV2");
+    context.inEditHistory = IsInEditHistory(dataViewController);
 
     context.hideWhoToFollow = [BHTSettings boolForKey:@"hide_who_to_follow"];
     context.hidePrompts = [BHTSettings boolForKey:@"hide_timeline_prompts"];
     context.hideVerified = [BHTSettings boolForKey:@"hide_verified_tweets"] &&
-                           !context.inProfile && !context.inSearch;
+                           !context.inProfile && !context.inSearch && !context.inEditHistory;
     context.hideBlockedRetweets = [BHTSettings boolForKey:@"hide_blocked_retweets"];
 
     return context;
