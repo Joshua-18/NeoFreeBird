@@ -1,4 +1,4 @@
- //  CustomTabBarViewController.m
+//  CustomTabBarViewController.m
 //  NeoFreeBird
 //
 //  Created by Bandar Alruwaili on 11/12/2023.
@@ -335,7 +335,6 @@ static UIViewController* findViewControllerOfClass(UIViewController* vc,
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-
 #pragma mark - Reordering (preview row)
 
 - (void)handleReorderGesture:(UILongPressGestureRecognizer*)gesture {
@@ -429,8 +428,8 @@ static UIViewController* findViewControllerOfClass(UIViewController* vc,
     [footer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     NSString* title = [[BHTBundle sharedBundle]
-    localizedStringForKey:
-        @"SUBSCRIPTION_TAB_CUSTOMIZATION_RESTORE_BUTTON_TITLE"];
+        localizedStringForKey:
+            @"SUBSCRIPTION_TAB_CUSTOMIZATION_RESTORE_BUTTON_TITLE"];
 
     UIButton* restore = [objc_getClass("TFNButton") buttonWithTitle:title
                                                          imageNamed:nil

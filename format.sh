@@ -12,36 +12,39 @@ style="file:$(pwd)/.clang-format"
 check=0
 if [[ "${1:-}" == "--check" ]]; then check=1; shift; fi
 
+# perl rather than sed: BSD sed (macOS) has no \b and no \n in replacements.
 protect() {
-  sed -E \
-    -e 's|^([[:space:]]*)%hook[[:space:]]+(.*)$|\1@implementation LOGOSHOOK_\2|' \
-    -e 's|^([[:space:]]*)%subclass[[:space:]]+(.*)$|\1@implementation LOGOSSUBCLASS_\2|' \
-    -e 's|^([[:space:]]*)%end[[:space:]]*$|\1@end //LOGOSEND|' \
-    -e 's|^([[:space:]]*)%group[[:space:]]+(.*)$|\1//LOGOSGROUP \2|' \
-    -e 's|^([[:space:]]*)%new[[:space:]]+([+-])|\1/*LOGOSNEW*/\n\1\2|' \
-    -e 's|^([[:space:]]*)%new[[:space:]]*$|\1/*LOGOSNEW*/|' \
-    -e 's|^([[:space:]]*)%property\b(.*)$|\1@property\2 //LOGOSPROP|' \
-    -e 's|^([[:space:]]*)%ctor\b|\1static void LOGOSCTOR(void)|' \
-    -e 's|^([[:space:]]*)%dtor\b|\1static void LOGOSDTOR(void)|' \
-    -e 's|%orig\b|LOGOSORIG|g' \
-    -e 's|%c\(|LOGOSC(|g' \
-    -e 's|%init\b|LOGOSINIT|g'
+  perl -lpe '
+    s|^(\s*)%hook\s+(.*)$|$1\@implementation LOGOSHOOK_$2|;
+    s|^(\s*)%subclass\s+(.*)$|$1\@implementation LOGOSSUBCLASS_$2|;
+    s|^(\s*)%end\s*$|$1\@end //LOGOSEND|;
+    s|^(\s*)%group\s+(.*)$|$1//LOGOSGROUP $2|;
+    s|^(\s*)%new\s+([+-])|$1/*LOGOSNEW*/\n$1$2|;
+    s|^(\s*)%new\s*$|$1/*LOGOSNEW*/|;
+    s|^(\s*)%property\b(.*)$|$1\@property$2 //LOGOSPROP|;
+    s|^(\s*)%ctor\b|$1static void LOGOSCTOR(void)|;
+    s|^(\s*)%dtor\b|$1static void LOGOSDTOR(void)|;
+    s|%orig\b|LOGOSORIG|g;
+    s|%c\(|LOGOSC(|g;
+    s|%init\b|LOGOSINIT|g;
+  '
 }
 
 restore() {
-  sed -E \
-    -e 's|@implementation LOGOSHOOK_|%hook |' \
-    -e 's|@implementation LOGOSSUBCLASS_|%subclass |' \
-    -e 's|@end[[:space:]]*//[[:space:]]*LOGOSEND|%end|' \
-    -e 's|//[[:space:]]*LOGOSGROUP |%group |' \
-    -e 's|^([[:space:]]*)/\*LOGOSNEW\*/[[:space:]]*$|\1%new|' \
-    -e 's|@property(.*;)[[:space:]]*//[[:space:]]*LOGOSPROP|%property\1|' \
-    -e 's|static void LOGOSCTOR\(void\)|%ctor|' \
-    -e 's|static void LOGOSDTOR\(void\)|%dtor|' \
-    -e 's|LOGOSORIG|%orig|g' \
-    -e 's|LOGOSC\(|%c(|g' \
-    -e 's|LOGOSINIT|%init|g' \
-    -e 's|[[:space:]]+$||'
+  perl -lpe '
+    s|\@implementation LOGOSHOOK_|%hook |;
+    s|\@implementation LOGOSSUBCLASS_|%subclass |;
+    s|\@end\s*//\s*LOGOSEND|%end|;
+    s|//\s*LOGOSGROUP |%group |;
+    s|^(\s*)/\*LOGOSNEW\*/\s*$|$1%new|;
+    s|\@property(.*;)\s*//\s*LOGOSPROP|%property$1|;
+    s|static void LOGOSCTOR\(void\)|%ctor|;
+    s|static void LOGOSDTOR\(void\)|%dtor|;
+    s|LOGOSORIG|%orig|g;
+    s|LOGOSC\(|%c(|g;
+    s|LOGOSINIT|%init|g;
+    s|\s+$||;
+  '
 }
 
 format_to() {
@@ -63,7 +66,9 @@ format_to() {
 if [[ $# -gt 0 ]]; then
   files=("$@")
 else
-  mapfile -t files < <(find src -type f \( -name '*.m' -o -name '*.h' -o -name '*.x' \) -print | sort)
+  files=()
+  while IFS= read -r f; do files+=("$f"); done \
+    < <(find src -type f \( -name '*.m' -o -name '*.h' -o -name '*.x' \) -print | sort)
 fi
 
 dirty=0

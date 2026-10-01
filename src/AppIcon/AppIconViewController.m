@@ -70,8 +70,7 @@ static NSString* AppIconDetailText(void) {
     [super viewDidLoad];
 
     self.navigationItem.title = [[BHTBundle sharedBundle]
-    localizedStringForKey:@"SUBSCRIPTION_APP_ICON_SETTINGS_TITLE"];
-
+        localizedStringForKey:@"SUBSCRIPTION_APP_ICON_SETTINGS_TITLE"];
 
     UICollectionViewFlowLayout* flow = [UICollectionViewFlowLayout new];
     flow.sectionInset = UIEdgeInsetsMake(16, 16, 16, 16);

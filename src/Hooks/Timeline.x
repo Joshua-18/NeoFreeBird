@@ -3,8 +3,8 @@
 //  NeoFreeBird
 //
 
-#import "HookHelpers.h"
 #import <string.h>
+#import "HookHelpers.h"
 
 // MARK: - Hide custom timelines
 
@@ -217,7 +217,6 @@ static NSString* ItemScribeComponent(id viewModel) {
     return [component isKindOfClass:[NSString class]] ? component : nil;
 }
 
-
 static BOOL ItemRespondsAndInvokesBOOL(id viewModel, SEL selector) {
     if (![viewModel respondsToSelector:selector]) {
         return NO;
@@ -227,11 +226,10 @@ static BOOL ItemRespondsAndInvokesBOOL(id viewModel, SEL selector) {
 }
 
 // Set when a reply is only on the feed because a followed account replied to
-// someone else's tweet 
+// someone else's tweet
 static BOOL ItemIsReplyWithSocialContext(id viewModel) {
     return ItemRespondsAndInvokesBOOL(viewModel, @selector(isReplyAndShouldShowSocialContext));
 }
-
 
 static BOOL ItemIsConversationThreadReply(id viewModel) {
     return [ItemEntryID(viewModel) containsString:@"conversationthread"];
@@ -465,7 +463,6 @@ static BOOL MemoizedShouldHideTimelineItem(id item, NSCache<NSString*, NSNumber*
     return hide;
 }
 
-
 static long long ConversationRootUserID(NSArray* sections) {
     for (id section in sections) {
         if (![section isKindOfClass:[NSArray class]]) {
@@ -487,7 +484,6 @@ static long long ConversationRootUserID(NSArray* sections) {
 
     return 0;
 }
-
 
 static NSSet<NSNumber*>* ConversationAuthorRepliedToUserIDs(NSArray* sections,
                                                             long long rootUserID) {
@@ -628,7 +624,6 @@ static NSArray* FilteredTimelineSections(TFNItemsDataViewController* dataViewCon
     return modified ? [filteredSections copy] : sections;
 }
 
-
 %hook TFNItemsDataViewController
 
 - (void)setSections:(NSArray*)sections restoreScrollPosition:(BOOL)restoreScrollPosition {
@@ -678,7 +673,7 @@ static NSArray* FilteredTimelineSections(TFNItemsDataViewController* dataViewCon
 static const NSUInteger BHTPollMaxChoices = 4;
 
 // "choice2_label" -> 2, anything else -> 0.
-static NSUInteger BHTPollChoiceIndexForKey(NSString *key) {
+static NSUInteger BHTPollChoiceIndexForKey(NSString* key) {
     if (![key hasPrefix:@"choice"] || ![key hasSuffix:@"_label"]) {
         return 0;
     }
@@ -688,7 +683,7 @@ static NSUInteger BHTPollChoiceIndexForKey(NSString *key) {
     return index > 0 ? (NSUInteger)index : 0;
 }
 
-static BOOL BHTPollAlreadyShowsResults(TFCCardData *cardData) {
+static BOOL BHTPollAlreadyShowsResults(TFCCardData* cardData) {
     if ([cardData boolForKey:@"counts_are_final"]) {
         return YES;
     }
@@ -696,8 +691,8 @@ static BOOL BHTPollAlreadyShowsResults(TFCCardData *cardData) {
     return [cardData stringForKey:@"selected_choice"].length > 0;
 }
 
-static NSString *BHTPollPercentageString(double fraction) {
-    static NSNumberFormatter *formatter;
+static NSString* BHTPollPercentageString(double fraction) {
+    static NSNumberFormatter* formatter;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         formatter = [[NSNumberFormatter alloc] init];
@@ -708,9 +703,9 @@ static NSString *BHTPollPercentageString(double fraction) {
     return [formatter stringFromNumber:@(fraction)];
 }
 
-static NSString *BHTPollTitleWithPercentage(TFCCardData *cardData,
-                                            NSString *key,
-                                            NSString *title) {
+static NSString* BHTPollTitleWithPercentage(TFCCardData* cardData,
+                                            NSString* key,
+                                            NSString* title) {
     NSUInteger choice = BHTPollChoiceIndexForKey(key);
     if (choice == 0 || choice > BHTPollMaxChoices || title.length == 0 ||
         ![BHTSettings boolForKey:@"show_poll_results"]) {
@@ -726,9 +721,9 @@ static NSString *BHTPollTitleWithPercentage(TFCCardData *cardData,
     long long total = 0;
     long long votes = 0;
     for (NSUInteger i = 1; i <= BHTPollMaxChoices; i++) {
-        NSString *countKey =
+        NSString* countKey =
             [NSString stringWithFormat:@"choice%lu_count", (unsigned long)i];
-        NSNumber *count = [cardData numberForKey:countKey]
+        NSNumber* count = [cardData numberForKey:countKey]
                               ?: [cardData numberFromStringForKey:countKey];
         if (!count) {
             continue;
@@ -751,13 +746,13 @@ static NSString *BHTPollTitleWithPercentage(TFCCardData *cardData,
 
 %hook TFCCardData
 
-- (NSString *)stringForKey:(NSString *)key {
-    NSString *title = %orig;
+- (NSString*)stringForKey:(NSString*)key {
+    NSString* title = %orig;
     return BHTPollTitleWithPercentage(self, key, title);
 }
 
-- (NSString *)stringForKey:(NSString *)key defaultValue:(NSString *)value {
-    NSString *title = %orig;
+- (NSString*)stringForKey:(NSString*)key defaultValue:(NSString*)value {
+    NSString* title = %orig;
     return BHTPollTitleWithPercentage(self, key, title);
 }
 

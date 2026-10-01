@@ -34,7 +34,7 @@
 - (void)_doUnblockMessageUser:(id)user event:(id)event;
 @end
 
-@interface TUIFollowButtonV2: UIControl
+@interface TUIFollowButtonV2 : UIControl
 @property (nonatomic) BOOL confirmBlock;
 - (void)buttonTapped;
 @end
@@ -133,7 +133,6 @@
 - (id)_tweetsSubtitle;
 @end
 
-
 #pragma mark - Status views
 
 @protocol T1StatusInlineActionButtonDelegate <NSObject>
@@ -145,8 +144,8 @@
 @property (nonatomic) __weak id<T1StatusInlineActionButtonDelegate> delegate;
 @end
 
-@interface TTAStatusAuthorView: UIView
-@property UIButton *messageButton;
+@interface TTAStatusAuthorView : UIView
+@property UIButton* messageButton;
 @end
 
 @interface TTAStatusInlineReplyButton : UIView
@@ -155,11 +154,11 @@
 
 @interface T1PersistentComposeViewController : UIViewController
 @property (readonly, nonatomic) id statusViewModel;
--(void)_t1_sendReply;
+- (void)_t1_sendReply;
 @end
 
 @interface T1ImmersiveFullScreenViewController : UIViewController
-@property (retain, nonatomic) UIPanGestureRecognizer *dismissGesture;
+@property (retain, nonatomic) UIPanGestureRecognizer* dismissGesture;
 @end
 
 @interface T1ImmersiveViewController : UIViewController
@@ -230,7 +229,6 @@
 @property (nonatomic, readonly) NSArray* inlineMediaInfos;
 @end
 
-
 @interface _TtC16ChatConversation26MessageAttachmentAudioView : UIView
 @end
 
@@ -287,7 +285,7 @@
 - (void)updateFooterTextView;
 @end
 
-@interface T1VideoQualityUploadSettings: NSObject
+@interface T1VideoQualityUploadSettings : NSObject
 - (_Bool)shouldAllowFullHdVideoUpload:(long long)upload;
 @end
 // Hooked for unrounded follower/following counts
@@ -298,34 +296,33 @@
                        highlighted:(_Bool)arg4;
 @end
 
-
 @interface T1AnimatedLaunchScreenView : UIView
 - (void)layoutSubviews;
 - (void)traitCollectionDidChange:(id)change;
 @end
 
-@interface T1PollingResultsView: UIView
+@interface T1PollingResultsView : UIView
 @property (nonatomic) double percentage;
-@property (retain, nonatomic) NSString *percentageString;
+@property (retain, nonatomic) NSString* percentageString;
 @property (nonatomic) _Bool hasVoted;
 @end
 
-@interface T1PollingCardView: UIView
+@interface T1PollingCardView : UIView
 - (id)initWithFrame:(CGRect)frame;
-@property (retain, nonatomic) NSArray *choiceButtons;
-@property (retain, nonatomic) NSArray *resultViews;
-@property (retain, nonatomic) TFNTappableHighlightView *pollChoiceContainer;
-@property (retain, nonatomic) TFNTappableHighlightView *pollResultContainer;
-@property (retain, nonatomic) TFNTappableHighlightView *pollStatusContainer;
+@property (retain, nonatomic) NSArray* choiceButtons;
+@property (retain, nonatomic) NSArray* resultViews;
+@property (retain, nonatomic) TFNTappableHighlightView* pollChoiceContainer;
+@property (retain, nonatomic) TFNTappableHighlightView* pollResultContainer;
+@property (retain, nonatomic) TFNTappableHighlightView* pollStatusContainer;
 @end
 
 @interface TFCCardData : NSObject
-@property (readonly, copy, nonatomic) NSString *name;
-- (NSString *)stringForKey:(NSString *)key;
-- (NSString *)stringForKey:(NSString *)key defaultValue:(NSString *)value;
-- (NSNumber *)numberForKey:(NSString *)key;
-- (NSNumber *)numberFromStringForKey:(NSString *)key;
-- (BOOL)boolForKey:(NSString *)key;
+@property (readonly, copy, nonatomic) NSString* name;
+- (NSString*)stringForKey:(NSString*)key;
+- (NSString*)stringForKey:(NSString*)key defaultValue:(NSString*)value;
+- (NSNumber*)numberForKey:(NSString*)key;
+- (NSNumber*)numberFromStringForKey:(NSString*)key;
+- (BOOL)boolForKey:(NSString*)key;
 @end
 
 @interface TAVPlaybackState : NSObject
@@ -347,12 +344,12 @@
 - (void)setPausedByUser:(BOOL)paused;
 @end
 
-@interface _TtC16ChatConversation24ScreenshotProtectionView: UIView
+@interface _TtC16ChatConversation24ScreenshotProtectionView : UIView
 @end
 
 @interface T1AppSplitSideBarViewController : UIViewController
 @end
 
-@interface T1ViewControllerScribeEventObserver: NSObject
+@interface T1ViewControllerScribeEventObserver : NSObject
 - (void)viewControllerApplicationDidBecomeActive:(id)active;
 @end

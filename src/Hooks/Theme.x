@@ -3,10 +3,10 @@
 //  NeoFreeBird
 //
 
-#import "HookHelpers.h"
-#import "Headers/UIHeaders.h"
-#import "Headers/TFNHeaders.h"
 #import <math.h>
+#import "Headers/TFNHeaders.h"
+#import "Headers/UIHeaders.h"
+#import "HookHelpers.h"
 
 // MARK: - Custom accent color
 
@@ -70,7 +70,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -81,7 +81,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimElevatedBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -92,7 +92,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimHighlightBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -103,7 +103,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -114,7 +114,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimElevatedBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -125,7 +125,7 @@ void applySelectedThemeColor(void) {
     }
     return [UIColor colorWithDynamicProvider:^UIColor*(UITraitCollection* traits) {
         return traits.userInterfaceStyle == UIUserInterfaceStyleDark ? BHTDimHighlightBackgroundColor()
-                                                                       : original;
+                                                                     : original;
     }];
 }
 
@@ -241,7 +241,7 @@ static UIColor* BHTDimNormalizedViewBackground(UIView* view, UIColor* color) {
 
 %hook TFNSolidColorView
 
--(void) didMoveToWindow {
+- (void)didMoveToWindow {
     %orig;
     if (BHTDimThemeEnabled()) {
         self.hidden = TRUE;
@@ -279,7 +279,7 @@ static UIImage* BHTDimSearchPillImage(void) {
                                                                    diameter / 2.0,
                                                                    diameter / 2.0,
                                                                    diameter / 2.0)
-                                         resizingMode:UIImageResizingModeStretch];
+                                     resizingMode:UIImageResizingModeStretch];
     });
     return image;
 }
@@ -341,7 +341,6 @@ static BOOL BHTIsExploreSearchBackgroundView(UIView* view) {
 }
 
 %end
-
 
 %hook _TtC10TFNUISwift26LegacySegmentedTabBarStyle
 

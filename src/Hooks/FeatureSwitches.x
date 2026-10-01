@@ -870,7 +870,7 @@ static __thread BOOL DashPanelIDQuery = NO;
 
 // MARK: - Video upload quality
 %hook T1VideoQualityUploadSettings
-- (BOOL)shouldAllowFullHdVideoUpload:(long long)upload{
+- (BOOL)shouldAllowFullHdVideoUpload:(long long)upload {
     return [BHTSettings boolForKey:@"upload_full_hd_videos"] ? YES : %orig;
 }
 %end

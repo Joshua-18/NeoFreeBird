@@ -7,8 +7,8 @@
 
 #include <stdlib.h>
 
-#import "Core/BHTManager.h"
 #import "Core/BHTBundle.h"
+#import "Core/BHTManager.h"
 #import "Core/BHTSettings.h"
 #import "Settings/ModernSettingsViewController.h"
 

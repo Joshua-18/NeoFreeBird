@@ -151,7 +151,7 @@
 @interface TFNBarButtonItemButton : UIButton
 @end
 
-@interface TFNTappableHighlightView: UIView
+@interface TFNTappableHighlightView : UIView
 @end
 
 @interface TFNTitleView : UIView
@@ -186,7 +186,6 @@
 + (void)tfn_vectorImageSetOverrideContainerName:(NSString*)arg1;
 + (NSString*)tfn_vectorImageOverrideContainerName;
 @end
-
 
 @interface _TtC10TFNUISwift26LegacySegmentedTabBarStyle : NSObject
 @property (nonatomic, retain) UIColor* highlightBarColor;

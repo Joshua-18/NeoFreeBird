@@ -148,7 +148,7 @@ static void PresentCopyProfileInfoSheet(T1ProfileUserViewModel* viewModel) {
 
 - (id)_tweetsSubtitle {
     id original = %orig;
-    
+
     if (![BHTSettings boolForKey:@"show_unrounded_counts"]) {
         return original;
     }

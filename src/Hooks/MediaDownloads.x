@@ -3,8 +3,8 @@
 //  NeoFreeBird
 //
 
-#import "HookHelpers.h"
 #import <objc/runtime.h>
+#import "HookHelpers.h"
 
 static NSURL* nfbLastCapturedVoiceURL = nil;
 
@@ -64,7 +64,7 @@ static void DownloadVoiceMessage(NSURL* sourceURL) {
     NSString* extension = sourceURL.pathExtension.length ? sourceURL.pathExtension : @"m4a";
     NSURL* destination = [[NSURL fileURLWithPath:NSTemporaryDirectory()]
         URLByAppendingPathComponent:[NSString
-                                         stringWithFormat:@"%@.%@", NSUUID.UUID.UUIDString, extension]];
+                                        stringWithFormat:@"%@.%@", NSUUID.UUID.UUIDString, extension]];
 
     if (sourceURL.isFileURL) {
         NSError* copyError = nil;
@@ -79,7 +79,7 @@ static void DownloadVoiceMessage(NSURL* sourceURL) {
 
     TFNHUD* hud = [[objc_getClass("TFNHUD") alloc]
         initWithText:[[BHTBundle sharedBundle]
-                          localizedStringForKey:@"DOWNLOAD_LIVE_ACTIVITY_DOWNLOADING"]];
+                         localizedStringForKey:@"DOWNLOAD_LIVE_ACTIVITY_DOWNLOADING"]];
     [hud show];
     NSURLSessionDownloadTask* task = [[NSURLSession sharedSession]
         downloadTaskWithURL:sourceURL
@@ -166,7 +166,6 @@ static NSArray* DMVideoEntities(UIView* attachmentView) {
                      }];
 }
 %end
-
 
 // MARK: - Chat voice bubble
 //

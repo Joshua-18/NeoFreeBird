@@ -16,8 +16,8 @@
 @interface UIExtendedSRGBColorSpace : UIColor
 @end
 
-@interface UIDeviceRGBColor: UIColor
+@interface UIDeviceRGBColor : UIColor
 @end
 
-@interface _UIBarBackground: UIView
+@interface _UIBarBackground : UIView
 @end

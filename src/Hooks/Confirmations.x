@@ -17,16 +17,16 @@ static void ShowConfirmation(void (^confirmed)(void)) {
                 localizedStringForKey:@"CONFIRM_ALERT_MESSAGE"]);
 
             make.button([[BHTBundle sharedBundle]
-                localizedStringForKey:@"YES_ACTION_LABEL"])
+                            localizedStringForKey:@"YES_ACTION_LABEL"])
                 .handler(^(NSArray<NSString*>* strings) {
                     confirmed();
                 });
 
             make.button([[BHTBundle sharedBundle]
-                localizedStringForKey:@"NO_ACTION_LABEL"])
+                            localizedStringForKey:@"NO_ACTION_LABEL"])
                 .cancelStyle();
         }
-        showFrom:topMostController()];
+         showFrom:topMostController()];
 }
 
 // MARK: - Tweet confirm
@@ -61,7 +61,6 @@ static void ShowConfirmation(void (^confirmed)(void)) {
 %end
 
 // MARK: - Follow confirm
-
 
 %hook TUIFollowControl
 
@@ -161,7 +160,7 @@ static BOOL FastBlockEnabled(void) {
             scribeParameters:(id)parameters
                   completion:(id)completion {
     %orig(user, muting, FastBlockEnabled() ? NO : needed, impressionID, promoted,
-          earned, page, section, component, parameters, completion);
+              earned, page, section, component, parameters, completion);
 }
 
 - (void)_showBlockStatusForContext:(id)context source:(long long)source {

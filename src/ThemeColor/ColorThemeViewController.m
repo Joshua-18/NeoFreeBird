@@ -132,7 +132,6 @@ static UIColor* NativeAccentColor(NSUInteger option) {
     [self reapplyAccentToLiveViews];
 }
 
-
 static void reapplySegmentedCaretAccent(UIView* view) {
     static Class caretClass;
     static Class tabBarClass;

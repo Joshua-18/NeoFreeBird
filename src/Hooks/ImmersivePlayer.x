@@ -87,7 +87,6 @@ static BOOL progressLabelAlphaFromState(id pluginView, CGFloat* outAlpha) {
     return YES;
 }
 
-
 static const void* kBHTRestoredTimestampKey = &kBHTRestoredTimestampKey;
 
 // VideoControlsView.ProgressLabelMode, a payload-free Swift enum stored in a
@@ -179,16 +178,16 @@ static BOOL isImmersiveCardPan(id viewController,
     return panIvar && object_getIvar(viewController, panIvar) == gesture;
 }
 
-static BOOL isUpwardPan(UIGestureRecognizer *gesture) {
+static BOOL isUpwardPan(UIGestureRecognizer* gesture) {
     if (![gesture isKindOfClass:[UIPanGestureRecognizer class]]) return NO;
-    UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)gesture;
+    UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*)gesture;
     CGPoint v = [pan velocityInView:gesture.view];
     return v.y < 0.0;
 }
 
 %hook T1ImmersiveViewController
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gesture {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gesture {
     if ([BHTSettings boolForKey:@"disable_immersive_scroll"] &&
         isImmersiveCardPan(self, gesture)) {
         if (isUpwardPan(gesture)) {
@@ -208,7 +207,7 @@ static BOOL isUpwardPan(UIGestureRecognizer *gesture) {
     return %orig;
 }
 
-- (void)handlePan:(UIPanGestureRecognizer *)pan {
+- (void)handlePan:(UIPanGestureRecognizer*)pan {
     if ([BHTSettings boolForKey:@"disable_immersive_scroll"]) {
         CGPoint v = [pan velocityInView:self.view];
         if (v.y < 0.0) {
@@ -223,7 +222,7 @@ static BOOL isUpwardPan(UIGestureRecognizer *gesture) {
 
 %hook T1ImmersiveViewControllerV2
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gesture {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gesture {
     if ([BHTSettings boolForKey:@"disable_immersive_scroll"] &&
         isImmersiveCardPan(self, gesture)) {
         if (isUpwardPan(gesture)) {
@@ -243,7 +242,7 @@ static BOOL isUpwardPan(UIGestureRecognizer *gesture) {
     return %orig;
 }
 
-- (void)handlePan:(UIPanGestureRecognizer *)pan {
+- (void)handlePan:(UIPanGestureRecognizer*)pan {
     if ([BHTSettings boolForKey:@"disable_immersive_scroll"]) {
         CGPoint v = [pan velocityInView:self.view];
         if (v.y < 0.0) {
@@ -268,7 +267,7 @@ static void togglePlayback(TAVPlayer* player) {
     if (player.playbackState.timeControlStatus != 0) {
         [player pause];
     } else {
-        [player playOrReplay];  // replays instead of no-oping at end of video
+        [player playOrReplay]; // replays instead of no-oping at end of video
     }
 }
 

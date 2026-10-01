@@ -263,7 +263,9 @@ static NSString* CleanedShareURLString(NSString* urlString) {
 %end
 
 %hook UIScreen
-- (BOOL)isCaptured { return NO; }
+- (BOOL)isCaptured {
+    return NO;
+}
 %end
 
 %hook TUIFollowControlCustomScreenshot
@@ -274,7 +276,6 @@ static NSString* CleanedShareURLString(NSString* urlString) {
     self.userInteractionEnabled = false;
 }
 %end
-
 
 %hook T1ViewControllerScribeEventObserver
 - (void)viewControllerApplicationDidBecomeActive:(id)active {

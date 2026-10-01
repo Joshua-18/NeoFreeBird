@@ -47,7 +47,6 @@ UIColor* _Nullable BHTDimReplacementForResolvedColor(UIColor* resolved);
  */
 BOOL BHTColorIsCloseToWhite(UIColor* _Nullable color);
 
-
 /**
  * Wraps a live TAEColorPalette-conforming object, substituting Dim's navy
  * background family for the handful of properties it overrides and

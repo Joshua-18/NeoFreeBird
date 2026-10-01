@@ -3,8 +3,8 @@
 //  NeoFreeBird
 //
 
-#import "HookHelpers.h"
 #import "Headers/XHeaders.h"
+#import "HookHelpers.h"
 
 // MARK: - NeoFreeBird settings entry
 
@@ -297,7 +297,6 @@ static NSString* CustomFontName(BOOL isBold) {
 
 %hook XDSButtonContentElement
 + (id)labelWithText:(id)text font:(id)font color:(id)color {
-
     id orig = %orig;
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"custom_fonts"]) {
         return orig;
@@ -306,19 +305,18 @@ static NSString* CustomFontName(BOOL isBold) {
     BOOL isBold = [font containsString:@"Bold"] ||
                   [font containsString:@"Heavy"];
 
-    NSString *customName = [[NSUserDefaults standardUserDefaults]
+    NSString* customName = [[NSUserDefaults standardUserDefaults]
         objectForKey:isBold ? @"bhtwitter_font_2" : @"bhtwitter_font_1"];
     if (!customName) {
         return orig;
     }
-    UIFont *customFont = [UIFont fontWithName:customName
-                                         size:[(UIFont *)orig pointSize]];
+    UIFont* customFont = [UIFont fontWithName:customName
+                                         size:[(UIFont*)orig pointSize]];
     if (!customFont) {
         return orig;
     }
 
     return %orig(text, customFont, color);
-
 }
 
 %end
