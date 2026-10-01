@@ -422,6 +422,11 @@
 "SETTINGS_EXPORT_TITLE" = "Export settings";
 "SETTINGS_IMPORT_TITLE" = "Import settings";
 
+"CUSTOM_SEND_SOUND_TITLE" = "Import send sound";
+"CUSTOM_SEND_SOUND_DEFAULT" = "No custom sound selected";
+"CUSTOM_SEND_SOUND_FAILED_TITLE" = "Send sound import failed";
+"CUSTOM_SEND_SOUND_TOO_LONG" = "The sound you selected is too long. It must be 7 seconds or shorter.";
+
 "SETTINGS_EXPORT_FAILED_TITLE" = "Export failed";
 "SETTINGS_EXPORT_WRITE_FAILED" = "The settings file couldn't be created.";
 

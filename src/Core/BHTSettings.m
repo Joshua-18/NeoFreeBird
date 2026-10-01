@@ -339,6 +339,13 @@ static NSDictionary<NSString*, NSDictionary*>* BHTSettingsPages(void) {
                         @"type": @"toggle"
                     },
                     @{
+                        @"type": @"compactButton",
+                        @"titleKey": @"CUSTOM_SEND_SOUND_TITLE",
+                        @"action": @"importTweetSound:",
+                        @"prefKeyForSubtitle": @"custom_send_sound_name",
+                        @"subtitleDefaultKey": @"CUSTOM_SEND_SOUND_DEFAULT"
+                    },
+                    @{
                         @"key": @"bypass_age_verification",
                         @"default": @YES,
                         @"type": @"toggle"
