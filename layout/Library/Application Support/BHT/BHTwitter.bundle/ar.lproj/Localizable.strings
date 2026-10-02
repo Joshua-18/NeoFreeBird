@@ -61,7 +61,7 @@
 "MODERN_SETTINGS_EXPERIMENTAL_SUBTITLE" = "جرّب ميزات نختبرها حاليًا.";
 
 "MODERN_SETTINGS_DEBUG_TITLE" = "تصحيح الأخطاء";
-"MODERN_SETTINGS_DEBUG_SUBTITLE" = "اكتشف أسباب الأعطال.";
+"MODERN_SETTINGS_DEBUG_SUBTITLE" = "اكتشف سبب عدم عمل إحدى الميزات.";
 
 "COOL_KIDS_SECTION_HEADER_TITLE" = "المميزون";
 "SPECIAL_THANKS_SECTION_HEADER_TITLE" = "شكر خاص";
@@ -163,10 +163,10 @@
 "HIDE_TYPING_INDICATOR_DETAIL" = "منع إرسال مؤشر \"يكتب...\" إلى الآخرين في الدردشة.";
 
 "DOWNLOAD_VOICE_MESSAGES_TITLE" = "تنزيل الرسائل الصوتية";
-"DOWNLOAD_VOICE_MESSAGES_DETAIL" = "حفظ الرسائل الصوتية على جهازك بعد تشغيلها. لتنزيل رسالة، اضغط عليها مطولًا بإصبعين.";
+"DOWNLOAD_VOICE_MESSAGES_DETAIL" = "حفظ الرسائل الصوتية على جهازك بعد تشغيلها. لتنزيل رسالة صوتية، اضغط عليها مطولًا بإصبعين.";
 
 "BLOCK_SCREENSHOT_DETECTION_TITLE" = "منع رصد لقطات الشاشة";
-"BLOCK_SCREENSHOT_DETECTION_DETAIL" = "السماح بالتقاط صور للشاشة في الدردشات \"الآمنة\" دون منعك.";
+"BLOCK_SCREENSHOT_DETECTION_DETAIL" = "التقاط لقطات شاشة للمحادثات \"الآمنة\" دون أن يمنعك التطبيق.";
 
 /*Profiles*/
 "FOLLOW_CONFIRM_TITLE" = "تأكيد المتابعة";
@@ -181,7 +181,7 @@
 "DISABLE_ARTICLES_TITLE" = "إخفاء تبويب المقالات";
 "DISABLE_ARTICLES_DETAIL" = "إخفاء تبويب المقالات في الملفات الشخصية.";
 
-"DISABLE_HIGHLIGHTS_TITLE" = "إخفاء تبويب المميزة";
+"DISABLE_HIGHLIGHTS_TITLE" = "إخفاء تبويب أبرز التغريدات";
 "DISABLE_HIGHLIGHTS_DETAIL" = "إخفاء تبويب التغريدات المميزة في الملفات الشخصية.";
 
 "HIDE_FOLLOW_BUTTON_TITLE" = "إخفاء زر المتابعة في التغريدات";
@@ -322,7 +322,7 @@
 
 /*Tab bar*/
 "CUSTOM_TAB_BAR_SETTINGS_NAVIGATION_TITLE" = "تخصيص شريط التنقل";
-"CUSTOM_TAB_BAR_GRID_DETAIL" = "المس وجهة لإضافتها أو إزالتها. اسحب العناصر في الشريط أدناه لتغيير ترتيبها.";
+"CUSTOM_TAB_BAR_GRID_DETAIL" = "اضغط على وجهة لإضافتها أو إزالتها. اسحب العناصر في الشريط أدناه لإعادة ترتيبها.";
 "CUSTOM_TAB_BAR_RESET_MESSAGE" = "هل تريد استعادة شريط التنقل الافتراضي؟";
 
 /* Restore tab labels */
@@ -332,7 +332,7 @@
 "COLOR_TWITTER_ICON_IN_TOP_BAR_TITLE" = "تلوين أيقونة تويتر";
 "COLOR_TWITTER_ICON_IN_TOP_BAR_DETAIL" = "تطبيق لون التمييز على أيقونة تويتر في الشريط العلوي.";
 
-"REFRESH_PILL_TEXT" = "نشر";
+"REFRESH_PILL_TEXT" = "تغريدات جديدة";
 "REFRESH_PILL_LABEL_TITLE" = "إضافة تسمية إلى زر التحديث";
 "REFRESH_PILL_LABEL_DETAIL" = "استعادة تسمية زر التحديث عند نشر تغريدة جديدة.";
 
@@ -366,7 +366,7 @@
 "CONTRIBUTOR_PAGE_SECTION_HEADER_TITLE" = "المساهمون";
 
 /*App lock*/
-"PADLOCK_LOCKED_LABEL" = "مقفل";
+"PADLOCK_LOCKED_LABEL" = "مغلق";
 
 /*Source labels*/
 "UNKNOWN_SOURCE" = "مصدر غير معروف";
@@ -390,13 +390,13 @@
 "PASSWORD_LABEL" = "كلمة المرور";
 "LOG_IN_ACTION_LABEL" = "تسجيل الدخول";
 "LOG_IN_TITLE" = "تسجيل الدخول";
-"LEGACY_LOGIN_CLASSES_MISSING_MESSAGE" = "أصناف تسجيل الدخول البرمجية غير موجودة.";
+"LEGACY_LOGIN_CLASSES_MISSING_MESSAGE" = "مكوّنات تسجيل الدخول غير متوفرة.";
 "LEGACY_LOGIN_BUILD_COMMAND_FAILED_MESSAGE" = "تعذّر إنشاء أمر تسجيل الدخول.";
 "LEGACY_LOGIN_CRASH_AVOIDED_TITLE" = "تجنّب تعطل التطبيق";
 "LEGACY_LOGIN_UNEXPECTED_RESPONSE_TITLE" = "استجابة غير متوقعة";
 "LEGACY_LOGIN_NO_TOKEN_NO_CHALLENGE_MESSAGE" = "لا يوجد رمز مصادقة أو تحدٍّ للتحقق.";
 "LEGACY_LOGIN_CHALLENGE_MISSING_INFO_MESSAGE" = "تحدي التحقق يفتقد معرّف الطلب أو الرابط.";
-"LEGACY_LOGIN_CHALLENGE_CLASSES_MISSING_MESSAGE" = "الأصناف البرمجية لتحدي التحقق أو مضيفه غير موجودة.";
+"LEGACY_LOGIN_CHALLENGE_CLASSES_MISSING_MESSAGE" = "مكوّنات التحقق غير متوفرة.";
 "LEGACY_LOGIN_BUILD_CHALLENGE_FAILED_MESSAGE" = "تعذّر إنشاء تحدي التحقق.";
 "LEGACY_LOGIN_NO_TOKEN_MESSAGE" = "لا يوجد رمز مصادقة في الاستجابة.";
 "LEGACY_LOGIN_FAILED_TITLE" = "تعذّر تسجيل الدخول";
