@@ -6,5 +6,5 @@ Description: Awesome tweak for Twitter
 Maintainer: NeoFreeBird
 Author: NeoFreeBird
 Section: Tweaks
-Depends: mobilesubstrate, ws.hbang.common
+Depends: mobilesubstrate
 Conflicts: com.den.twigalaxy, xyz.cypwn.twigalaxy, xyz.cypwn.bhtwitter, com.netskao.twitternoads, xyz.cypwn.bringbacktwitter
